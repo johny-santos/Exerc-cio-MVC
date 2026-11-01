@@ -1,5 +1,3 @@
-
-
 class MainController:
     def __init__(self, menu_view, autor_controller, livro_controller):
         self.menu_view = menu_view
