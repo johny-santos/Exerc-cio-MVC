@@ -7,7 +7,7 @@ class AutorModel:
                 host="localhost",
                 database="BibliotecaDB",
                 user="postgres",
-                password=""
+                password="dbJOHNY#@1503125469"
             )
         except Exception as e:
             print("Erro ao conectar no banco de dados: ", e)
@@ -18,9 +18,9 @@ class AutorModel:
             cursor.execute(
                 "SELECT * FROM autor"
             )
-            autor = cursor.fetchall()
+            autores = cursor.fetchall()
             cursor.close()
-            return autor
+            return autores
         
         except Exception as e:
             print("Erro ao listar os autores dos livros do sistema: ", e)        
@@ -36,35 +36,41 @@ class AutorModel:
                 )
             self.conexao.commit()
             cursor.close()
+            return True
         except Exception as e:
             print("Erro ao inserir/salvar autor no banco de dados do sistema: ", e)
             self.conexao.rollback()
+            return False
 
     def atualizar_autor(self, id_autor, nome, nacionalidade):
         try:
             cursor = self.conexao.cursor()
             cursor.execute(
-                "UPDATE autor SET nome = %s, nacionalidade = %s WHERE id_autor = %s;", 
+                "UPDATE autor SET nome = %s, nacionalidade = %s WHERE id = %s;", 
                 (nome, nacionalidade, id_autor)
             )
             self.conexao.commit()
             cursor.close()
+            return True
         except Exception as e:
             print("Erro ao atualizar dados do autor: ", e)
             self.conexao.rollback()
             #Interessante o rollback nessas operações delicadas que podem dar merda para evitar problema.
+            return False
 
     def excluir_autor(self, id_autor):
         try:
             cursor = self.conexao.cursor()
             cursor.execute(
-                "DELETE FROM autor WHERE id_autor = %s;",
+                "DELETE FROM autor WHERE id = %s;",
                 (id_autor,)    
             )
             self.conexao.commit()
             cursor.close()
+            return True
         except Exception as e:
             print("Erro ao excluir autor, tente novamente mais tarde!\nErro: ", e)
             self.conexao.rollback()
+            return False
 
 
